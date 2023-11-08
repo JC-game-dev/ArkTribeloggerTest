@@ -50,6 +50,8 @@
         const destroyedOptionsDivId = formId + "_destroyedOptions";
         const destroyedOptionsSelectId = formId + "_destroyedOptionsSelect";
         const dinonameInputId = formId + "_dinoname";
+        const structuresAmountInputID = formId + "_structuresAmount";
+        const killedAmountInputID = formId + "_killedAmount";
 
         // Create the "Type" label and select element
         const typeLabel = document.createElement("label");
@@ -102,6 +104,17 @@
         stoneFoundationOption.textContent = "Stone Foundation";
         destroyedOptionsSelect.appendChild(stoneFoundationOption);
 
+        const structuresAmountLabel = document.createElement("label");
+        structuresAmountLabel.setAttribute("for", structuresAmountInputID);
+        structuresAmountLabel.textContent = "Alert Amount";
+        destroyedOptionsDiv.appendChild(structuresAmountLabel);
+
+        const structuresAmountInput = document.createElement("input");
+        structuresAmountInput.setAttribute("type", "text");
+        structuresAmountInput.setAttribute("id", structuresAmountInputID);
+        structuresAmountInput.setAttribute("name", "dinoName");
+        destroyedOptionsDiv.appendChild(structuresAmountInput);
+
         // Create the "wasKilled" option details
         const wasKilledOptionDiv = document.createElement("div");
         wasKilledOptionDiv.style.display = "none";
@@ -117,6 +130,17 @@
         dinoNameInput.setAttribute("id", dinonameInputId);
         dinoNameInput.setAttribute("name", "dinoName");
         wasKilledOptionDiv.appendChild(dinoNameInput);
+
+        const dinoAmountLabel = document.createElement("label");
+        dinoAmountLabel.setAttribute("for", killedAmountInputID);
+        dinoAmountLabel.textContent = "Alert Amount";
+        wasKilledOptionDiv.appendChild(dinoAmountLabel);
+
+        const dinoAmountInput = document.createElement("input");
+        dinoAmountInput.setAttribute("type", "text");
+        dinoAmountInput.setAttribute("id", killedAmountInputID);
+        dinoAmountInput.setAttribute("name", "dinoName");
+        wasKilledOptionDiv.appendChild(dinoAmountInput);
 
         // Append the formInstance to your target HTML element (e.g., a form or a div)
         const targetElement = document.getElementById("items");
