@@ -135,11 +135,19 @@ async function tesseractProcess(imgData) {
     checkTextForItemOverlaps(text);
 }
 
+function cleanUpText(text) {
+    newText = text;
+
+
+
+    return newText;
+}
+
 function checkTextForItemOverlaps(text) {
     console.log(items); // Verify the contents of the 'items' array
     console.log(text); // Verify the extracted text
 
-
+    newText = cleanUpText(text);
 
     for (let i = 0; i < items.length; i++) {
         const curItem = items[i];

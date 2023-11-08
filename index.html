@@ -5,7 +5,6 @@
     <title>NodeTest</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
 
@@ -24,37 +23,117 @@
 
         <button type="button" class="btn btn-primary" id="addItem">Add Listener Slot</button>
 
-        <br>
+        <br/>
 
         <input type="submit" class="btn btn-success mt-3" value="Create">
     </form>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script>
     document.getElementById('addItem').addEventListener('click', function() {
         const itemsDiv = document.getElementById('items');
         const newItem = document.createElement('div');
 
-        const stringToLookFor = document.createElement('input');
-        stringToLookFor.type = 'text';
-        stringToLookFor.name = 'stringToLookFor';
-        stringToLookFor.placeholder = 'String to Look For';
-
-        const howMany = document.createElement('input');
-        howMany.type = 'number';
-        howMany.name = 'howMany';
-        howMany.placeholder = 'How Many';
-
-        newItem.appendChild(stringToLookFor);
-        newItem.appendChild(howMany);
-        itemsDiv.appendChild(newItem);
+        createDynamicForm();
     });
+
+    function createDynamicForm() {
+        // Create a container div for the dynamic form instance
+        const formInstance = document.createElement("div");
+
+        // Generate unique IDs for the form and its elements
+        const formId = "dynamicForm_" + new Date().getTime();
+        const typeSelectId = formId + "_type";
+        const destroyedOptionsDivId = formId + "_destroyedOptions";
+        const destroyedOptionsSelectId = formId + "_destroyedOptionsSelect";
+        const dinonameInputId = formId + "_dinoname";
+
+        // Create the "Type" label and select element
+        const typeLabel = document.createElement("label");
+        typeLabel.setAttribute("for", typeSelectId);
+        typeLabel.textContent = "Type";
+        formInstance.appendChild(typeLabel);
+
+        const typeSelect = document.createElement("select");
+        typeSelect.setAttribute("id", typeSelectId);
+        typeSelect.setAttribute("name", "type");
+        formInstance.appendChild(typeSelect);
+
+        // Create the "wasDestroyed" option
+        const wasDestroyedOption = document.createElement("option");
+        wasDestroyedOption.setAttribute("value", "wasDestroyed");
+        wasDestroyedOption.textContent = "was destroyed";
+        typeSelect.appendChild(wasDestroyedOption);
+
+        // Create the "wasKilled" option
+        const wasKilledOption = document.createElement("option");
+        wasKilledOption.setAttribute("value", "wasKilled");
+        wasKilledOption.textContent = "was killed";
+        typeSelect.appendChild(wasKilledOption);
+
+        // Create the "wasDestroyed" option details
+        const destroyedOptionsDiv = document.createElement("div");
+        destroyedOptionsDiv.setAttribute("id", destroyedOptionsDivId);
+        destroyedOptionsDiv.style.display = "none";
+        formInstance.appendChild(destroyedOptionsDiv);
+
+        const destroyedOptionsLabel = document.createElement("label");
+        destroyedOptionsLabel.setAttribute("for", destroyedOptionsSelectId);
+        destroyedOptionsLabel.textContent = "Structure";
+        destroyedOptionsDiv.appendChild(destroyedOptionsLabel);
+
+        const destroyedOptionsSelect = document.createElement("select");
+        destroyedOptionsSelect.setAttribute("id", destroyedOptionsSelectId);
+        destroyedOptionsSelect.setAttribute("name", "destroyedoptions");
+        destroyedOptionsDiv.appendChild(destroyedOptionsSelect);
+
+        // Create the "Metal Foundation" option
+        const metalFoundationOption = document.createElement("option");
+        metalFoundationOption.setAttribute("value", "Metal Foundation");
+        metalFoundationOption.textContent = "Metal Foundation";
+        destroyedOptionsSelect.appendChild(metalFoundationOption);
+
+        // Create the "Stone Foundation" option
+        const stoneFoundationOption = document.createElement("option");
+        stoneFoundationOption.setAttribute("value", "Stone Foundation");
+        stoneFoundationOption.textContent = "Stone Foundation";
+        destroyedOptionsSelect.appendChild(stoneFoundationOption);
+
+        // Create the "wasKilled" option details
+        const wasKilledOptionDiv = document.createElement("div");
+        wasKilledOptionDiv.style.display = "none";
+        formInstance.appendChild(wasKilledOptionDiv);
+
+        const dinoNameLabel = document.createElement("label");
+        dinoNameLabel.setAttribute("for", dinonameInputId);
+        dinoNameLabel.textContent = "Name of Dino";
+        wasKilledOptionDiv.appendChild(dinoNameLabel);
+
+        const dinoNameInput = document.createElement("input");
+        dinoNameInput.setAttribute("type", "text");
+        dinoNameInput.setAttribute("id", dinonameInputId);
+        dinoNameInput.setAttribute("name", "dinoName");
+        wasKilledOptionDiv.appendChild(dinoNameInput);
+
+        // Append the formInstance to your target HTML element (e.g., a form or a div)
+        const targetElement = document.getElementById("items");
+        targetElement.appendChild(formInstance);
+
+        typeSelect.addEventListener("change", function () {
+            const selectedValue = typeSelect.value;
+            destroyedOptionsDiv.style.display = "none";
+            wasKilledOptionDiv.style.display = "none";
+            if (selectedValue === "wasDestroyed") {
+                destroyedOptionsDiv.style.display = "block";
+            } else if (selectedValue === "wasKilled") {
+                wasKilledOptionDiv.style.display = "block";
+            }
+        });
+    }
 </script>
-
-
-<script src="index.js" type="javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 </body>
 </html>
