@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const imagePath = "live.png";
 
+
 const webhook = "https://discord.com/api/webhooks/1166303267316310106/At-bdvAUP_smQrUedRcw4LZ__rwYt3UgRDUvouPgqL3QXzoq1Y0pj2gR_588nClzatoI";
 
 app.get("/", async (request, response) => {
@@ -32,24 +33,51 @@ app.get("/", async (request, response) => {
 app.post('/submit-form', (req, res) => {
     const streamLink = req.body.streamLinkInput;
 
-    // Access the array of items
-    if (req.body.stringToLookFor && req.body.howMany) {
-        // Check if they are arrays (if multiple items are added)
-        if (Array.isArray(req.body.stringToLookFor) && Array.isArray(req.body.howMany)) {
-            // Loop through the arrays and create objects for each pair
-            for (let i = 0; i < req.body.stringToLookFor.length; i++) {
-                items.push({
-                    stringToLookFor: req.body.stringToLookFor[i],
-                    howMany: req.body.howMany[i],
-                });
-            }
-        } else {
-            // Handle a single item case
+    console.log(req);
+
+    console.log("length" + req.body.type.length);
+
+    const types = req.body.type;
+    const destroyedOptions = req.body.destroyedoptions;
+    const destroyedAmounts = req.body.destroyedamount;
+    const dinoNames = req.body.dinoName;
+    const killedAmounts = req.body.killedAmount;
+
+    console.log(types[0])
+
+    let formItems = {
+        types,
+        destroyedOptions,
+        destroyedAmounts,
+        dinoNames,
+        killedAmounts,
+
+    };
+
+
+    console.log('Items:', formItems);
+
+    console.log(formItems.types[0]); //single items have to be handled differently*
+
+    for (let i = 0; i < formItems.types.length; i++) {
+        const type = formItems.types[i];
+
+        if(type == "wasKilled") {
+            const dinoName = formItems.dinoNames[i];
+            const killedAmount = formItems.killedAmounts[i];
+
+            const stringToLookFor
+
             items.push({
-                stringToLookFor: req.body.stringToLookFor,
-                howMany: req.body.howMany,
-            });
+
+            })
         }
+        else if(type == "wasDestroyed") {
+            const destroyedOption = formItems.destroyedOptions[i];
+            const destroyedAmount = formItems.destroyedAmounts[i];
+        }
+
+
     }
 
     // Now, you can use 'platform', 'streamLink', 'type', 'webhook', and 'items' as needed
