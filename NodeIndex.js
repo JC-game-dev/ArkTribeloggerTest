@@ -64,21 +64,31 @@ app.post('/submit-form', (req, res) => {
 
         if(type == "wasKilled") {
             const dinoName = formItems.dinoNames[i];
-            const killedAmount = formItems.killedAmounts[i];
+            const amount = formItems.killedAmounts[i];
 
-            const stringToLookFor
+            const stringTLF = "Your " + dinoName + ".*" + "was killed by " + ".*";
 
             items.push({
-
+                stringTLF,
+                killedAmount
             })
         }
         else if(type == "wasDestroyed") {
             const destroyedOption = formItems.destroyedOptions[i];
-            const destroyedAmount = formItems.destroyedAmounts[i];
+            const amount = formItems.destroyedAmounts[i];
+
+            const stringTLF = "destroyed your '" + destroyedOption;
+
+            items.push({
+                stringTLF,
+                destroyedAmount
+            })
         }
 
 
     }
+
+    console.log(items);
 
     // Now, you can use 'platform', 'streamLink', 'type', 'webhook', and 'items' as needed
 
@@ -164,26 +174,24 @@ async function tesseractProcess(imgData) {
 }
 
 function cleanUpText(text) {
-    newText = text;
-
-
-
-    return newText;
+    return text.replace(/\n/g, ' ');
 }
 
 function checkTextForItemOverlaps(text) {
     console.log(items); // Verify the contents of the 'items' array
     console.log(text); // Verify the extracted text
 
-    newText = cleanUpText(text);
+    let newText = cleanUpText(text);
+
+    console.log(newText);
 
     for (let i = 0; i < items.length; i++) {
         const curItem = items[i];
-        const regex = new RegExp(curItem.stringToLookFor, 'g');
+        const regex = new RegExp(curItem.stringTLF, 'g');
         const matches = text.match(regex);
 
-        if(matches.length == curItem.howMany) {
-            sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringToLookFor}': ${matches.length}`);
+        if(matches.length == curItem.amount) {
+            sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringTLF}': ${matches.length}`);
         }
     }
 }

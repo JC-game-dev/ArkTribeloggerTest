@@ -64,6 +64,11 @@
         typeSelect.setAttribute("name", "type");
         formInstance.appendChild(typeSelect);
 
+        const emptyTypeOption = document.createElement("option");
+        emptyTypeOption.setAttribute("value", "");
+        emptyTypeOption.textContent = "";
+        typeSelect.appendChild(emptyTypeOption);
+
         // Create the "wasDestroyed" option
         const wasDestroyedOption = document.createElement("option");
         wasDestroyedOption.setAttribute("value", "wasDestroyed");
@@ -108,6 +113,11 @@
         stoneFoundationOption.setAttribute("value", "Stone Foundation");
         stoneFoundationOption.textContent = "Stone Foundation";
         destroyedOptionsSelect.appendChild(stoneFoundationOption);
+
+        const tekForcefieldOption = document.createElement("option");
+        tekForcefieldOption.setAttribute("value", "Tek Forcefield");
+        tekForcefieldOption.textContent = "Tek Forcefield";
+        destroyedOptionsSelect.appendChild(tekForcefieldOption);
 
         const lineBreak = document.createElement("br");
         destroyedOptionsDiv.appendChild(lineBreak);
