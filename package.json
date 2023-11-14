@@ -20,6 +20,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
     "node-fetch": "^2.7.0",
+    "sharp": "^0.32.6",
     "term-img": "^6.0.0",
     "tesseract.js": "^5.0.2",
     "util": "^0.12.5",

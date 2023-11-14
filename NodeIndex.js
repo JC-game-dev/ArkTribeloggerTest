@@ -7,6 +7,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
+const sharp = require('sharp');
 
 const Tesseract = require('tesseract.js');
 
@@ -175,6 +176,7 @@ async function captureFramesFromHLS(hlsUrl) {
     // Start capturing frames
     captureFrame();
 }
+
 
 async function tesseractProcess(imgData) {
     let text = await extractTextFromImage(imgData)
