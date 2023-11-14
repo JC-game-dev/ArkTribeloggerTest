@@ -5,6 +5,12 @@
     <title>NodeTest</title>
 </head>
 
+<style>
+    .icon {
+        margin-right: 5px;
+    }
+</style>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
 
@@ -105,7 +111,8 @@
         // Create the "Metal Foundation" option
         const metalFoundationOption = document.createElement("option");
         metalFoundationOption.setAttribute("value", "Metal Foundation");
-        metalFoundationOption.textContent = "Metal Foundation";
+
+        metalFoundationOption.innerHTML = "Metal Foundation";
         destroyedOptionsSelect.appendChild(metalFoundationOption);
 
         // Create the "Stone Foundation" option
@@ -118,6 +125,26 @@
         tekForcefieldOption.setAttribute("value", "Tek Forcefield");
         tekForcefieldOption.textContent = "Tek Forcefield";
         destroyedOptionsSelect.appendChild(tekForcefieldOption);
+
+        const plantXOption = document.createElement("option");
+        plantXOption.setAttribute("value", "Plant Species X");
+        plantXOption.textContent = "Plant X";
+        destroyedOptionsSelect.appendChild(plantXOption);
+
+        const heavyOption = document.createElement("option");
+        heavyOption.setAttribute("value", "Heavy Automated Turret");
+        heavyOption.textContent = "Heavy Turret";
+        destroyedOptionsSelect.appendChild(heavyOption);
+
+        const autoOption = document.createElement("option");
+        autoOption.setAttribute("value", "Automated Turret");
+        autoOption.textContent = "Auto Turret";
+        destroyedOptionsSelect.appendChild(autoOption);
+
+        const tekOption = document.createElement("option");
+        tekOption.setAttribute("value", "Tek Turret");
+        tekOption.textContent = "Tek Turret";
+        destroyedOptionsSelect.appendChild(tekOption);
 
         const lineBreak = document.createElement("br");
         destroyedOptionsDiv.appendChild(lineBreak);

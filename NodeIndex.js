@@ -35,6 +35,10 @@ app.post('/submit-form', (req, res) => {
 
     console.log(req);
 
+    if(!req.body.type) {
+        res.send("No Values Defined");
+    }
+
     console.log("length" + req.body.type.length);
 
     const types = req.body.type;
@@ -57,32 +61,44 @@ app.post('/submit-form', (req, res) => {
 
     console.log('Items:', formItems);
 
-    console.log(formItems.types[0]); //single items have to be handled differently*
+    console.log(formItems.types[0]); //single items have to be handled differently?
 
     for (let i = 0; i < formItems.types.length; i++) {
         const type = formItems.types[i];
 
         if(type == "wasKilled") {
             const dinoName = formItems.dinoNames[i];
-            const amount = formItems.killedAmounts[i];
+            let amount = formItems.killedAmounts[i];
+
+            if(amount == "") {
+                amount = "1";
+            }
 
             const stringTLF = "Your " + dinoName + ".*" + "was killed by " + ".*";
 
-            items.push({
-                stringTLF,
-                killedAmount
-            })
+            if(dinoName !== "") {
+                items.push({
+                    stringTLF,
+                    amount
+                })
+            }
         }
         else if(type == "wasDestroyed") {
             const destroyedOption = formItems.destroyedOptions[i];
-            const amount = formItems.destroyedAmounts[i];
+            let amount = formItems.destroyedAmounts[i];
+
+            if(amount == "") {
+                amount = "1";
+            }
 
             const stringTLF = "destroyed your '" + destroyedOption;
 
-            items.push({
-                stringTLF,
-                destroyedAmount
-            })
+            if(destroyedOption != "") {
+                items.push({
+                    stringTLF,
+                    amount
+                })
+            }
         }
 
 
@@ -190,8 +206,10 @@ function checkTextForItemOverlaps(text) {
         const regex = new RegExp(curItem.stringTLF, 'g');
         const matches = text.match(regex);
 
-        if(matches.length == curItem.amount) {
-            sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringTLF}': ${matches.length}`);
+        if(matches) {
+            if(matches.length == curItem.amount) {
+                sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringTLF}': ${matches.length}`);
+            }
         }
     }
 }
