@@ -5,7 +5,12 @@
     <title>NodeTest</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+    .icon {
+        margin-right: 5px;
+    }
+</style>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
 
@@ -24,37 +29,193 @@
 
         <button type="button" class="btn btn-primary" id="addItem">Add Listener Slot</button>
 
-        <br>
+        <br/>
 
         <input type="submit" class="btn btn-success mt-3" value="Create">
     </form>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script>
     document.getElementById('addItem').addEventListener('click', function() {
         const itemsDiv = document.getElementById('items');
         const newItem = document.createElement('div');
 
-        const stringToLookFor = document.createElement('input');
-        stringToLookFor.type = 'text';
-        stringToLookFor.name = 'stringToLookFor';
-        stringToLookFor.placeholder = 'String to Look For';
-
-        const howMany = document.createElement('input');
-        howMany.type = 'number';
-        howMany.name = 'howMany';
-        howMany.placeholder = 'How Many';
-
-        newItem.appendChild(stringToLookFor);
-        newItem.appendChild(howMany);
-        itemsDiv.appendChild(newItem);
+        createDynamicForm();
     });
+
+    function createDynamicForm() {
+        // Create a container div for the dynamic form instance
+        const formInstance = document.createElement("div");
+
+        // Generate unique IDs for the form and its elements
+        const formId = "dynamicForm_" + new Date().getTime();
+        const typeSelectId = formId + "_type";
+        const destroyedOptionsDivId = formId + "_destroyedOptions";
+        const destroyedOptionsSelectId = formId + "_destroyedOptionsSelect";
+        const dinonameInputId = formId + "_dinoname";
+        const structuresAmountInputID = formId + "_structuresAmount";
+        const killedAmountInputID = formId + "_killedAmount";
+
+        // Create the "Type" label and select element
+        const typeLabel = document.createElement("label");
+        typeLabel.setAttribute("for", typeSelectId);
+        typeLabel.textContent = "Type";
+        formInstance.appendChild(typeLabel);
+
+        const typeSelect = document.createElement("select");
+        typeSelect.setAttribute("id", typeSelectId);
+        typeSelect.setAttribute("name", "type");
+        formInstance.appendChild(typeSelect);
+
+        const emptyTypeOption = document.createElement("option");
+        emptyTypeOption.setAttribute("value", "");
+        emptyTypeOption.textContent = "";
+        typeSelect.appendChild(emptyTypeOption);
+
+        // Create the "wasDestroyed" option
+        const wasDestroyedOption = document.createElement("option");
+        wasDestroyedOption.setAttribute("value", "wasDestroyed");
+        wasDestroyedOption.textContent = "was destroyed";
+        typeSelect.appendChild(wasDestroyedOption);
+
+        // Create the "wasKilled" option
+        const wasKilledOption = document.createElement("option");
+        wasKilledOption.setAttribute("value", "wasKilled");
+        wasKilledOption.textContent = "was killed";
+        typeSelect.appendChild(wasKilledOption);
+
+        // Create the "wasDestroyed" option details
+        const destroyedOptionsDiv = document.createElement("div");
+        destroyedOptionsDiv.setAttribute("id", destroyedOptionsDivId);
+        destroyedOptionsDiv.style.display = "none";
+        formInstance.appendChild(destroyedOptionsDiv);
+
+        const destroyedOptionsLabel = document.createElement("label");
+        destroyedOptionsLabel.setAttribute("for", destroyedOptionsSelectId);
+        destroyedOptionsLabel.textContent = "Structure";
+        destroyedOptionsDiv.appendChild(destroyedOptionsLabel);
+
+        const destroyedOptionsSelect = document.createElement("select");
+        destroyedOptionsSelect.setAttribute("id", destroyedOptionsSelectId);
+        destroyedOptionsSelect.setAttribute("name", "destroyedoptions");
+        destroyedOptionsDiv.appendChild(destroyedOptionsSelect);
+
+        const emptyOption = document.createElement("option");
+        emptyOption.setAttribute("value", "");
+        emptyOption.textContent = "";
+        destroyedOptionsSelect.appendChild(emptyOption);
+
+        // Create the "Metal Foundation" option
+        const metalFoundationOption = document.createElement("option");
+        metalFoundationOption.setAttribute("value", "Metal Foundation");
+
+        metalFoundationOption.innerHTML = "Metal Foundation";
+        destroyedOptionsSelect.appendChild(metalFoundationOption);
+
+        // Create the "Stone Foundation" option
+        const stoneFoundationOption = document.createElement("option");
+        stoneFoundationOption.setAttribute("value", "Stone Foundation");
+        stoneFoundationOption.textContent = "Stone Foundation";
+        destroyedOptionsSelect.appendChild(stoneFoundationOption);
+
+        const tekForcefieldOption = document.createElement("option");
+        tekForcefieldOption.setAttribute("value", "Tek Forcefield");
+        tekForcefieldOption.textContent = "Tek Forcefield";
+        destroyedOptionsSelect.appendChild(tekForcefieldOption);
+
+        const plantXOption = document.createElement("option");
+        plantXOption.setAttribute("value", "Plant Species X");
+        plantXOption.textContent = "Plant X";
+        destroyedOptionsSelect.appendChild(plantXOption);
+
+        const heavyOption = document.createElement("option");
+        heavyOption.setAttribute("value", "Heavy Automated Turret");
+        heavyOption.textContent = "Heavy Turret";
+        destroyedOptionsSelect.appendChild(heavyOption);
+
+        const autoOption = document.createElement("option");
+        autoOption.setAttribute("value", "Automated Turret");
+        autoOption.textContent = "Auto Turret";
+        destroyedOptionsSelect.appendChild(autoOption);
+
+        const tekOption = document.createElement("option");
+        tekOption.setAttribute("value", "Tek Turret");
+        tekOption.textContent = "Tek Turret";
+        destroyedOptionsSelect.appendChild(tekOption);
+
+        const metalPillarOption = document.createElement("option");
+        metalPillarOption.setAttribute("value", "Metal Pillar");
+        metalPillarOption.textContent = "Metal Pillar";
+        destroyedOptionsSelect.appendChild(metalPillarOption);
+
+        const stonePillarOption = document.createElement("option");
+        stonePillarOption.setAttribute("value", "Stone Pillar");
+        stonePillarOption.textContent = "Stone Pillar";
+        destroyedOptionsSelect.appendChild(stonePillarOption);
+
+        const lineBreak = document.createElement("br");
+        destroyedOptionsDiv.appendChild(lineBreak);
+
+        const structuresAmountLabel = document.createElement("label");
+        structuresAmountLabel.setAttribute("for", structuresAmountInputID);
+        structuresAmountLabel.textContent = "Alert Amount";
+        destroyedOptionsDiv.appendChild(structuresAmountLabel);
+
+        const structuresAmountInput = document.createElement("input");
+        structuresAmountInput.setAttribute("type", "text");
+        structuresAmountInput.setAttribute("id", structuresAmountInputID);
+        structuresAmountInput.setAttribute("name", "destroyedamount");
+        destroyedOptionsDiv.appendChild(structuresAmountInput);
+
+        // Create the "wasKilled" option details
+        const wasKilledOptionDiv = document.createElement("div");
+        wasKilledOptionDiv.style.display = "none";
+        formInstance.appendChild(wasKilledOptionDiv);
+
+        const dinoNameLabel = document.createElement("label");
+        dinoNameLabel.setAttribute("for", dinonameInputId);
+        dinoNameLabel.textContent = "Name of Dino";
+        wasKilledOptionDiv.appendChild(dinoNameLabel);
+
+        const dinoNameInput = document.createElement("input");
+        dinoNameInput.setAttribute("type", "text");
+        dinoNameInput.setAttribute("id", dinonameInputId);
+        dinoNameInput.setAttribute("name", "dinoName");
+        wasKilledOptionDiv.appendChild(dinoNameInput);
+
+        const lineBreak2 = document.createElement("br");
+        wasKilledOptionDiv.appendChild(lineBreak2);
+
+        const dinoAmountLabel = document.createElement("label");
+        dinoAmountLabel.setAttribute("for", killedAmountInputID);
+        dinoAmountLabel.textContent = "Alert Amount";
+        wasKilledOptionDiv.appendChild(dinoAmountLabel);
+
+        const dinoAmountInput = document.createElement("input");
+        dinoAmountInput.setAttribute("type", "text");
+        dinoAmountInput.setAttribute("id", killedAmountInputID);
+        dinoAmountInput.setAttribute("name", "killedAmount");
+        wasKilledOptionDiv.appendChild(dinoAmountInput);
+
+        // Append the formInstance to your target HTML element (e.g., a form or a div)
+        const targetElement = document.getElementById("items");
+        targetElement.appendChild(formInstance);
+
+        typeSelect.addEventListener("change", function () {
+            const selectedValue = typeSelect.value;
+            destroyedOptionsDiv.style.display = "none";
+            wasKilledOptionDiv.style.display = "none";
+            if (selectedValue === "wasDestroyed") {
+                destroyedOptionsDiv.style.display = "block";
+            } else if (selectedValue === "wasKilled") {
+                wasKilledOptionDiv.style.display = "block";
+            }
+        });
+    }
 </script>
-
-
-<script src="index.js" type="javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 </body>
 </html>

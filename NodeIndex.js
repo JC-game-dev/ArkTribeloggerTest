@@ -7,6 +7,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
+const sharp = require('sharp');
 
 const Tesseract = require('tesseract.js');
 
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const imagePath = "live.png";
 
+
 const webhook = "https://discord.com/api/webhooks/1166303267316310106/At-bdvAUP_smQrUedRcw4LZ__rwYt3UgRDUvouPgqL3QXzoq1Y0pj2gR_588nClzatoI";
 
 app.get("/", async (request, response) => {
@@ -32,25 +34,78 @@ app.get("/", async (request, response) => {
 app.post('/submit-form', (req, res) => {
     const streamLink = req.body.streamLinkInput;
 
-    // Access the array of items
-    if (req.body.stringToLookFor && req.body.howMany) {
-        // Check if they are arrays (if multiple items are added)
-        if (Array.isArray(req.body.stringToLookFor) && Array.isArray(req.body.howMany)) {
-            // Loop through the arrays and create objects for each pair
-            for (let i = 0; i < req.body.stringToLookFor.length; i++) {
-                items.push({
-                    stringToLookFor: req.body.stringToLookFor[i],
-                    howMany: req.body.howMany[i],
-                });
-            }
-        } else {
-            // Handle a single item case
-            items.push({
-                stringToLookFor: req.body.stringToLookFor,
-                howMany: req.body.howMany,
-            });
-        }
+    console.log(req);
+
+    if(!req.body.type) {
+        res.send("No Values Defined");
     }
+
+    console.log("length" + req.body.type.length);
+
+    const types = req.body.type;
+    const destroyedOptions = req.body.destroyedoptions;
+    const destroyedAmounts = req.body.destroyedamount;
+    const dinoNames = req.body.dinoName;
+    const killedAmounts = req.body.killedAmount;
+
+    console.log(types[0])
+
+    let formItems = {
+        types,
+        destroyedOptions,
+        destroyedAmounts,
+        dinoNames,
+        killedAmounts,
+
+    };
+
+
+    console.log('Items:', formItems);
+
+    console.log(formItems.types[0]); //single items have to be handled differently?
+
+    for (let i = 0; i < formItems.types.length; i++) {
+        const type = formItems.types[i];
+
+        if(type == "wasKilled") {
+            const dinoName = formItems.dinoNames[i];
+            let amount = formItems.killedAmounts[i];
+
+            if(amount == "") {
+                amount = "1";
+            }
+
+            const stringTLF = "Your " + dinoName + ".*" + "was killed by " + ".*";
+
+            if(dinoName !== "") {
+                items.push({
+                    stringTLF,
+                    amount
+                })
+            }
+        }
+        else if(type == "wasDestroyed") {
+            const destroyedOption = formItems.destroyedOptions[i];
+            let amount = formItems.destroyedAmounts[i];
+
+            if(amount == "") {
+                amount = "1";
+            }
+
+            const stringTLF = "destroyed your '" + destroyedOption;
+
+            if(destroyedOption != "") {
+                items.push({
+                    stringTLF,
+                    amount
+                })
+            }
+        }
+
+
+    }
+
+    console.log(items);
 
     // Now, you can use 'platform', 'streamLink', 'type', 'webhook', and 'items' as needed
 
@@ -122,6 +177,7 @@ async function captureFramesFromHLS(hlsUrl) {
     captureFrame();
 }
 
+
 async function tesseractProcess(imgData) {
     let text = await extractTextFromImage(imgData)
         .then((text) => {
@@ -135,19 +191,27 @@ async function tesseractProcess(imgData) {
     checkTextForItemOverlaps(text);
 }
 
+function cleanUpText(text) {
+    return text.replace(/\n/g, ' ');
+}
+
 function checkTextForItemOverlaps(text) {
     console.log(items); // Verify the contents of the 'items' array
     console.log(text); // Verify the extracted text
 
+    let newText = cleanUpText(text);
 
+    console.log(newText);
 
     for (let i = 0; i < items.length; i++) {
         const curItem = items[i];
-        const regex = new RegExp(curItem.stringToLookFor, 'g');
+        const regex = new RegExp(curItem.stringTLF, 'g');
         const matches = text.match(regex);
 
-        if(matches.length == curItem.howMany) {
-            sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringToLookFor}': ${matches.length}`);
+        if(matches) {
+            if(matches.length == curItem.amount) {
+                sendWebhookMessage(`ALERT - Occurrences of '${curItem.stringTLF}': ${matches.length}`);
+            }
         }
     }
 }
