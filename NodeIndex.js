@@ -3,7 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { spawn } = require('child_process');
 const ytdl = require('ytdl-core');
+const ffmpegPath = process.env.FFMPEG_PATH || '/workspace/node_modules/static-ffmpeg/bin/linux/x64/ffmpeg';
+
 const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
