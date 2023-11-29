@@ -26,5 +26,8 @@
     "tesseract.js": "^5.0.2",
     "util": "^0.12.5",
     "ytdl-core": "^4.11.5"
+  },
+  "engines": {
+    "node": "20.8.1"
   }
 }
