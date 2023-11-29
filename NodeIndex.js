@@ -17,6 +17,7 @@ const storedConnections = [];
 
 const items = [];
 
+let curLinks = [];
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get("/", async (request, response) => {
 
 app.post('/submit-form', (req, res) => {
     const streamLink = req.body.streamLinkInput;
+    let active = true;
 
     console.log(req);
 
