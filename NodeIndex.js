@@ -3,11 +3,16 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { spawn } = require('child_process');
 const ytdl = require('ytdl-core');
-const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 const sharp = require('sharp');
+
+const ffmpegPath = require('static-ffmpeg');
+console.log('FFmpeg path:', ffmpegPath);
+
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const Tesseract = require('tesseract.js');
 
